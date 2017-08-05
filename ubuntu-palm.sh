@@ -18,8 +18,7 @@ if [ $# -lt 1 ]; then
   esac
 fi
 
-if [ $# -ge 1 ]
-then
+if [ $# -ge 1 ]; then
   case $1 in
     on) synclient PalmDetect=1
       echo ' PalmDetect is now on'
