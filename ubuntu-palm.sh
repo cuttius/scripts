@@ -4,29 +4,21 @@
 # This is just a small script to test if palm detect is turned on in
 # synclient and let the user pick if they want it on or off.
 
-currentPalm=$(synclient | grep 'PalmDetect' | cut -d '=' -f 2)
-echo $currentPalm
+if ! type synclient > /dev/null; then
+  echo 'The synclient app is not installed. Please install to use Palm Detect.'
+fi
 
-if [ -z $1 ]
-then
+currentPalm=$(synclient | grep 'PalmDetect' | cut -d '=' -f 2)
+
+if [ $# -lt 1 ]; then
   case $currentPalm in
-    0*) echo 'Palm Detect is off'
-    ;;
-    1*) echo 'Palm Detect is on'
-    ;;
-    *) echo 'Unable to test Palm Detect'
-      ;;
+    ' 0') echo 'Palm Detect is off';;
+    ' 1') echo 'Palm Detect is on';;
+    *) echo 'Unable to test Palm Detect';;
   esac
 fi
 
-case $currentPalm in
-  1*) echo 'Palm Detect is on'
-    ;;
-  0*) echo 'Palm Detect is off'
-    ;;
-esac
-
-if [ $# -eq 1 ]
+if [ $# -ge 1 ]
 then
   case $1 in
     on) synclient PalmDetect=1
